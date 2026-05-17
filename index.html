@@ -2,194 +2,256 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Chic & Glow – Moda, Accesorios y Belleza</title>
+  <title>Chic & Glow – Moda, accesorios y belleza</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Chic & Glow – Moda moderna, accesorios y belleza. Encuentra tu estilo con nuestra colección exclusiva.">
+  <meta name="description" content="Chic & Glow – Moda, accesorios y belleza con un toque glam premium. Descubre tu nuevo look.">
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-<div id="app">
-
-  <!-- Header -->
-  <header class="header">
-    <div class="container header-content">
-
-      <div class="logo">Chic <span>&</span> Glow</div>
-
-      <div class="search-bar">
-        <input 
-          v-model="searchQuery"
-          type="text"
-          placeholder="Buscar productos..."
-          @input="filterProducts"
-        >
-        <button class="search-btn">🔍</button>
-      </div>
-
-      <nav class="nav">
-        <a href="#categorias">Categorías</a>
-        <a href="#sobre">Sobre nosotros</a>
-        <a href="#contacto">Contacto</a>
-        <a href="https://chic-and-glow.myshopify.com" target="_blank" class="btn-primary-small">
-          Tienda
-        </a>
-      </nav>
-
-    </div>
-  </header>
-
-  <!-- Hero -->
-  <section class="hero">
-    <div class="container hero-content">
-      <div>
-        <h1>Brilla con tu propio estilo</h1>
-        <p>Moda, accesorios y belleza seleccionados para iluminar cada momento de tu día.</p>
-        <a href="https://chic-and-glow.myshopify.com" target="_blank" class="btn-primary">
-          Explorar colección
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Categorías -->
-  <section id="categorias" class="section">
-    <div class="container">
-      <h2>Categorías destacadas</h2>
-      <p class="section-subtitle">Encuentra lo que mejor encaja contigo</p>
-
-      <div class="categories-grid">
-        <button 
-          v-for="category in categories"
-          :key="category"
-          @click="selectedCategory = (selectedCategory === category ? null : category)"
-          :class="['category-btn', { active: selectedCategory === category }]"
-        >
-          {{ category }}
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Filtros + Productos -->
-  <section class="section">
-    <div class="container">
-
-      <div class="filters">
-        <div class="filter-group">
-          <label>Rango de precio</label>
-          <input 
-            v-model.number="priceRange"
-            type="range"
-            min="0"
-            max="500"
-            @input="filterProducts"
-          >
-          <span>Hasta ${{ priceRange }}</span>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="container header-content">
+        <div class="logo">
+          <span class="logo-mark">CG</span>
+          <div class="logo-text">
+            <span class="logo-title">Chic & Glow</span>
+            <span class="logo-subtitle">Moda · Accesorios · Belleza</span>
+          </div>
         </div>
 
-        <button @click="resetFilters" class="btn-secondary">Limpiar filtros</button>
+        <div class="search-bar">
+          <input
+            v-model="searchQuery"
+            type="text"
+            placeholder="Buscar productos, categorías..."
+            @input="filterProducts"
+          >
+          <button class="search-btn">🔍</button>
+        </div>
+
+        <nav class="nav">
+          <a href="#coleccion">Colección</a>
+          <a href="#categorias">Categorías</a>
+          <a href="#sobre">Sobre nosotros</a>
+          <a href="#contacto">Contacto</a>
+          <a href="https://chic-and-glow.myshopify.com" target="_blank" class="btn-primary-small">
+            Ir a la tienda
+          </a>
+        </nav>
       </div>
+    </header>
 
-      <!-- Loading -->
-      <div v-if="loading" class="loading">
-        Cargando productos...
-      </div>
-
-      <!-- Productos -->
-      <div v-else class="grid-products">
-        <div 
-          v-for="product in filteredProducts"
-          :key="product.id"
-          class="card-product"
-        >
-          <div v-if="product.isNew" class="tag">Nuevo</div>
-
-          <div class="product-image">
-            <img 
-              v-if="product.image"
-              :src="product.image"
-              :alt="product.title"
-            >
-            <div v-else class="no-image">Sin imagen</div>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <div class="hero-copy">
+          <span class="hero-tag">Nueva temporada</span>
+          <h1>Brilla con un estilo que habla de ti</h1>
+          <p>
+            Prendas, accesorios y belleza seleccionados para crear looks que combinan elegancia,
+            comodidad y un toque de glow.
+          </p>
+          <div class="hero-actions">
+            <a href="#coleccion" class="btn-primary">Ver colección</a>
+            <a href="https://chic-and-glow.myshopify.com" target="_blank" class="btn-ghost">
+              Ir al catálogo completo
+            </a>
           </div>
-
-          <h3>{{ product.title }}</h3>
-          <p>{{ product.description }}</p>
-
-          <div class="product-footer">
-            <span class="price">${{ product.price }}</span>
-            <a 
-              :href="`https://chic-and-glow.myshopify.com/products/${product.handle}`"
+        </div>
+        <div class="hero-highlight">
+          <div class="hero-card">
+            <span class="hero-card-label">Selección del momento</span>
+            <h3>{{ highlightProduct?.title || 'Descubre nuestras piezas clave' }}</h3>
+            <p v-if="highlightProduct">
+              {{ highlightProduct.description || 'Una pieza versátil para elevar cualquier look.' }}
+            </p>
+            <p v-else>
+              Una selección de básicos elevados y piezas especiales para tu armario cápsula.
+            </p>
+            <a
+              v-if="highlightProduct"
+              :href="`https://chic-and-glow.myshopify.com/products/${highlightProduct.handle}`"
               target="_blank"
-              class="btn-secondary"
+              class="hero-card-link"
             >
-              Ver producto
+              Ver producto destacado →
             </a>
           </div>
         </div>
       </div>
+    </section>
 
-      <div v-if="!loading && filteredProducts.length === 0" class="no-products">
-        No hay productos que coincidan con tu búsqueda.
+    <!-- Colección -->
+    <section id="coleccion" class="section">
+      <div class="container">
+        <div class="section-header">
+          <div>
+            <h2>Colección Chic & Glow</h2>
+            <p class="section-subtitle">
+              Piezas seleccionadas para combinar entre sí y crear looks que brillan sin esfuerzo.
+            </p>
+          </div>
+          <div class="filters">
+            <div class="filter-group">
+              <label>Rango de precio</label>
+              <input
+                v-model.number="priceRange"
+                type="range"
+                min="0"
+                max="500"
+                @input="filterProducts"
+              >
+              <span>Hasta {{ formattedPriceRange }}</span>
+            </div>
+            <button @click="resetFilters" class="btn-secondary">Limpiar filtros</button>
+          </div>
+        </div>
+
+        <div v-if="loading" class="loading">
+          Cargando productos de la tienda...
+        </div>
+
+        <div v-else class="grid-products">
+          <div
+            v-for="product in filteredProducts"
+            :key="product.id"
+            class="card-product"
+          >
+            <div v-if="product.isNew" class="tag">Nuevo</div>
+
+            <div class="product-image">
+              <img
+                v-if="product.image"
+                :src="product.image"
+                :alt="product.title"
+              >
+              <div v-else class="no-image">Imagen no disponible</div>
+            </div>
+
+            <div class="product-body">
+              <h3>{{ product.title }}</h3>
+              <p>{{ product.shortDescription }}</p>
+            </div>
+
+            <div class="product-footer">
+              <div class="price-block">
+                <span class="price">{{ product.priceFormatted }}</span>
+                <span v-if="product.compareAtPriceFormatted" class="price-compare">
+                  {{ product.compareAtPriceFormatted }}
+                </span>
+              </div>
+              <a
+                :href="`https://chic-and-glow.myshopify.com/products/${product.handle}`"
+                target="_blank"
+                class="btn-secondary"
+              >
+                Ver en tienda
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="!loading && filteredProducts.length === 0" class="no-products">
+          No hay productos que coincidan con tu búsqueda o filtros.
+        </div>
       </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- Categorías -->
+    <section id="categorias" class="section section-soft">
+      <div class="container">
+        <h2>Categorías para explorar</h2>
+        <p class="section-subtitle">
+          Descubre prendas, accesorios y productos de belleza según lo que te apetece hoy.
+        </p>
 
-  <!-- Sobre nosotros -->
-  <section id="sobre" class="section section-alt">
-    <div class="container about">
-      <h2>Nuestra esencia</h2>
-      <p>
-        En Chic & Glow creemos que la moda debe ser accesible, elegante y auténtica.
-        Seleccionamos cada prenda y producto con un enfoque en calidad, estilo y versatilidad.
-      </p>
-      <p>
-        Nuestro objetivo es ayudarte a brillar con piezas que se adapten a tu ritmo de vida
-        y reflejen tu personalidad.
-      </p>
-    </div>
-  </section>
-
-  <!-- Contacto -->
-  <section id="contacto" class="section">
-    <div class="container">
-      <h2>Contacto</h2>
-      <p class="section-subtitle">Estamos aquí para ayudarte</p>
-
-      <form class="form-contact" @submit.prevent="submitForm">
-        <div class="form-group">
-          <label for="nombre">Nombre</label>
-          <input id="nombre" v-model="form.nombre" type="text" placeholder="Tu nombre" required>
+        <div class="categories-grid">
+          <div
+            v-for="category in categories"
+            :key="category.name"
+            class="category-card"
+            :class="{ active: selectedCategory === category.name }"
+            @click="toggleCategory(category.name)"
+          >
+            <div class="category-image">
+              <img :src="category.image" :alt="category.name">
+            </div>
+            <div class="category-info">
+              <h3>{{ category.name }}</h3>
+              <p>{{ category.description }}</p>
+              <span class="category-link">Ver selección</span>
+            </div>
+          </div>
         </div>
+      </div>
+    </section>
 
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" v-model="form.email" type="email" placeholder="tucorreo@ejemplo.com" required>
+    <!-- Sobre nosotros -->
+    <section id="sobre" class="section section-alt">
+      <div class="container about">
+        <div class="about-text">
+          <h2>La esencia de Chic & Glow</h2>
+          <p>
+            Chic & Glow nace de la idea de crear un espacio donde la moda, los accesorios y la belleza
+            se sientan cercanos, cuidados y con un toque de lujo accesible.
+          </p>
+          <p>
+            Trabajamos con colecciones pensadas para combinar entre sí, con piezas que funcionan tanto
+            en tu día a día como en momentos especiales. Queremos que cada prenda te ayude a expresar
+            quién eres, sin perder comodidad ni autenticidad.
+          </p>
+          <p>
+            Cada detalle, desde la selección de productos hasta la experiencia de compra, está diseñado
+            para que sientas que estás invirtiendo en ti.
+          </p>
         </div>
-
-        <div class="form-group">
-          <label for="mensaje">Mensaje</label>
-          <textarea id="mensaje" v-model="form.mensaje" rows="4" placeholder="Cuéntanos cómo podemos ayudarte" required></textarea>
+        <div class="about-image">
+          <img
+            src="https://images.pexels.com/photos/6311579/pexels-photo-6311579.jpeg?auto=compress&cs=tinysrgb&w=1200"
+            alt="Mujer con estilo chic y elegante"
+          >
         </div>
+      </div>
+    </section>
 
-        <button type="submit" class="btn-primary">Enviar mensaje</button>
-      </form>
-    </div>
-  </section>
+    <!-- Contacto -->
+    <section id="contacto" class="section">
+      <div class="container">
+        <h2>Contacto</h2>
+        <p class="section-subtitle">
+          ¿Tienes dudas, propuestas de colaboración o quieres trabajar con Chic & Glow?
+        </p>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container footer-content">
-      <span>© <span id="year"></span> Chic & Glow. Todos los derechos reservados.</span>
-      <span class="footer-note">Diseñado con ✨ por Chic & Glow</span>
-    </div>
-  </footer>
+        <form class="form-contact" @submit.prevent="submitForm">
+          <div class="form-group">
+            <label for="nombre">Nombre</label>
+            <input id="nombre" v-model="form.nombre" type="text" placeholder="Tu nombre" required>
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" v-model="form.email" type="email" placeholder="tucorreo@ejemplo.com" required>
+          </div>
+          <div class="form-group">
+            <label for="mensaje">Mensaje</label>
+            <textarea id="mensaje" v-model="form.mensaje" rows="4" placeholder="Cuéntanos en qué podemos ayudarte" required></textarea>
+          </div>
+          <button type="submit" class="btn-primary">Enviar mensaje</button>
+        </form>
+      </div>
+    </section>
 
-</div>
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container footer-content">
+        <span>© <span id="year"></span> Chic & Glow. Todos los derechos reservados.</span>
+        <span class="footer-note">Diseñado con ✨ y atención al detalle.</span>
+      </div>
+    </footer>
+  </div>
 
-<script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<script src="app.js"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
