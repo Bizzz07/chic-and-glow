@@ -13,10 +13,8 @@
     <header class="header">
       <div class="container header-content">
         <div class="logo">
-          <span class="logo-mark">CG</span>
           <div class="logo-text">
             <span class="logo-title">Chic & Glow</span>
-            <span class="logo-subtitle">Moda · Accesorios · Belleza</span>
           </div>
         </div>
 
@@ -93,25 +91,6 @@
               Piezas seleccionadas para combinar entre sí y crear looks que brillan sin esfuerzo.
             </p>
           </div>
-          <div class="filters">
-            <div class="filter-group">
-              <label>Rango de precio</label>
-              <input
-                v-model.number="priceRange"
-                type="range"
-                min="0"
-                max="500"
-                @input="filterProducts"
-              >
-              <span>Hasta {{ formattedPriceRange }}</span>
-            </div>
-            <button @click="resetFilters" class="btn-secondary">Limpiar filtros</button>
-          </div>
-        </div>
-
-        <div v-if="loading" class="loading">
-          Cargando productos de la tienda...
-        </div>
 
         <div v-else class="grid-products">
           <div
@@ -151,10 +130,6 @@
               </a>
             </div>
           </div>
-        </div>
-
-        <div v-if="!loading && filteredProducts.length === 0" class="no-products">
-          No hay productos que coincidan con tu búsqueda o filtros.
         </div>
       </div>
     </section>
