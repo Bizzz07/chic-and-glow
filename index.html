@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Chic &amp; Glow - Moda que ilumina tu estilo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Chic & Glow, tienda de ropa moderna para quienes quieren destacar con estilo.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container header-content">
+      <div class="logo">Chic <span>&amp;</span> Glow</div>
+      <nav class="nav">
+        <a href="#coleccion">Colección</a>
+        <a href="#sobre">Sobre nosotros</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-content">
+      <div>
+        <h1>Moda que ilumina tu estilo</h1>
+        <p>Prendas versátiles, elegantes y cómodas para brillar en cualquier momento del día.</p>
+        <a href="#coleccion" class="btn-primary">Ver colección</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="coleccion" class="section">
+    <div class="container">
+      <h2>Colección destacada</h2>
+      <p class="section-subtitle">Piezas clave para tu armario cápsula.</p>
+
+      <div class="grid-products">
+        <article class="card-product">
+          <div class="tag">Nuevo</div>
+          <h3>Blazer Glow Night</h3>
+          <p>Blazer negro estructurado con acabado satinado, perfecto para noche y oficina.</p>
+          <span class="price">69,90 €</span>
+          <button class="btn-secondary">Añadir al look</button>
+        </article>
+
+        <article class="card-product">
+          <h3>Vestido Chic Sunrise</h3>
+          <p>Vestido midi en tonos cálidos, fluido y ligero para días luminosos.</p>
+          <span class="price">59,90 €</span>
+          <button class="btn-secondary">Añadir al look</button>
+        </article>
+
+        <article class="card-product">
+          <h3>Jeans Glow Fit</h3>
+          <p>Vaqueros de tiro alto con ajuste cómodo y favorecedor, combinan con todo.</p>
+          <span class="price">49,90 €</span>
+          <button class="btn-secondary">Añadir al look</button>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="sobre" class="section section-alt">
+    <div class="container about">
+      <div>
+        <h2>Sobre Chic &amp; Glow</h2>
+        <p>
+          Chic &amp; Glow nace con una idea clara: ropa que te haga sentir segura, cómoda y con estilo,
+          sin complicaciones. Diseñamos pensando en armarios reales, días reales y personas que quieren
+          brillar sin perder su esencia.
+        </p>
+        <p>
+          Apostamos por colecciones pequeñas, combinables entre sí y con un enfoque en la calidad y los detalles.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="section">
+    <div class="container">
+      <h2>Contacto</h2>
+      <p class="section-subtitle">¿Tienes dudas, colaboraciones o quieres vender con nosotros?</p>
+
+      <form class="form-contact">
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" type="text" placeholder="Tu nombre">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="tucorreo@ejemplo.com">
+        </div>
+        <div class="form-group">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" rows="4" placeholder="Cuéntanos en qué podemos ayudarte"></textarea>
+        </div>
+        <button type="submit" class="btn-primary">Enviar mensaje</button>
+      </form>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-content">
+      <span>© <span id="year"></span> Chic &amp; Glow. Todos los derechos reservados.</span>
+      <span class="footer-note">Diseñado con ✨ por Chic &amp; Glow.</span>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
